@@ -16,7 +16,7 @@ export class UserController {
   @Post("/post")
   @UsePipes(new ValidationPipe())
  async postData(@Body()body:UserDto, @Res()res){
-  const data =  this.userService.createUser(body);
+  const data =  await this.userService.createUser(body);
   res.send({
     data:data
   })

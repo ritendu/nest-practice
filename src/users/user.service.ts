@@ -1,15 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserDto } from './dtos/user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { userScheama } from 'src/schemas/user.schema';
 import { Model } from 'mongoose';
-import { User } from './interfaces/user.interface';
 import { hashPassword,comparePassword } from 'src/utils/bcrpt';
+import { userDocument } from 'src/schemas/user.schema';
 
 import { loginDto } from './dtos/login.dto';
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private readonly userModel: Model<User>){
+  constructor(@InjectModel('User') private readonly userModel: Model<userDocument>){
 
   }
 
