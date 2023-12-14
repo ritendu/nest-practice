@@ -13,7 +13,7 @@ export class UserController {
     return "Hello"
   }
 
-  @Post("/post")
+  @Post("/register")
   @UsePipes(new ValidationPipe())
  async postData(@Body()body:UserDto, @Res()res){
   const data =  await this.userService.createUser(body);
