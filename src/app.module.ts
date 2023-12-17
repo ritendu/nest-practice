@@ -5,9 +5,10 @@ import { UserModule } from './users/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './database/mongoose.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
-  imports: [UserModule,
+  imports: [UserModule,AdminModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
