@@ -14,12 +14,13 @@ export class TokenService {
     private configService:ConfigService
   ) {}
 
-  async generateToken(userId, expires, tokenType: TokenTypes, secret = this.configService.get('JWT_SECRET')) {
+  async generateToken(userId, expires, tokenType: TokenTypes,role, secret = this.configService.get('JWT_SECRET')) {
     const payload = {
         sub: userId,
         iat: moment().unix(),
         exp: expires.unix(),
-        type: tokenType
+        type: tokenType,
+        role:role
     };
     return await this.jwtService.signAsync(payload, { secret });
 };
@@ -50,10 +51,10 @@ async deleteToken(refreshToken) {
 
 async generateAuthTokens(user) {
     const accessTokenExpires = moment().add(this.configService.get('JWT_ACCESS_EXPIRATION_MINUTES'), 'minutes');
-    const accessToken = await this.generateToken(user.id, accessTokenExpires, TokenTypes.ACCESS);
+    const accessToken = await this.generateToken(user.id, accessTokenExpires, TokenTypes.ACCESS,user.role);
 
     const refreshTokenExpires = moment().add(this.configService.get('JWT_REFRESH_EXPIRATION_DAYS'), 'days');
-    const refreshToken = await this.generateToken(user.id, refreshTokenExpires, TokenTypes.REFRESH);
+    const refreshToken = await this.generateToken(user.id, refreshTokenExpires, TokenTypes.REFRESH,user.role);
     await this.saveToken(refreshToken, user.id, refreshTokenExpires, TokenTypes.REFRESH);
 
     return {

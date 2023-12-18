@@ -4,9 +4,7 @@ import { MongooseModuleOptions, MongooseOptionsFactory } from "@nestjs/mongoose"
 
 @Injectable()
 export class MongooseConfigService implements MongooseOptionsFactory{
-constructor(private configService:ConfigService){
-
-}
+constructor(private configService:ConfigService){}
 
 createMongooseOptions(): MongooseModuleOptions {
     console.log("MongoDB connection successful.")
