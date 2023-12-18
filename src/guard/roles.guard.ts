@@ -17,7 +17,7 @@ import { Role } from 'src/enum/roles.enum';
     constructor(private reflector:Reflector) {}
   
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        console.log("Inside RoleGuard")
+       
         const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
             context.getHandler(),
             context.getClass(),
@@ -25,9 +25,13 @@ import { Role } from 'src/enum/roles.enum';
         if(!requiredRoles) {
           return true
         }
+        const data = context.switchToHttp().getRequest();
+       if(requiredRoles.includes(data.user.role)){
+        return true
+       }else{
+        throw new UnauthorizedException("Unauthorized User");
+       } 
         
-        const {user} = context.switchToHttp().getRequest();
-        console.log(user,"user")
-     return true
+    //  return true
 }
   }

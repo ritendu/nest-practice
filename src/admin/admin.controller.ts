@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
 import { Role } from "src/enum/roles.enum";
 import { AuthGuard } from "src/guard/auth.guard";
 import { RolesGuard } from "src/guard/roles.guard";
@@ -10,11 +10,11 @@ export class AdminController {
   constructor() {}
 
 @Roles(Role.Admin)
-@UseGuards(AuthGuard)
-@UseGuards(RolesGuard)
+@UseGuards(AuthGuard,RolesGuard)
+// @UseGuards()
 @Post("/register")
- async postData(@Body()body:UserDto, @Res()res){
-console.log("Inside the controller")
+ async postData(@Body()body:UserDto,@Req()req, @Res()res){
+console.log(req.user,">>>>")
   }
 
 
