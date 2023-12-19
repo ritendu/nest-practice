@@ -11,35 +11,9 @@ export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<userDocument>){
 
   }
-
-
-   async createUser(data:UserDto){
-      console.log(data,"data")
-      const findUser = await this.userModel.findOne({email:data.email});
-      if(findUser){
-         throw new BadRequestException('User with this email already exists');
-
-      }
-      else{
-         const password = await hashPassword(data.password)
-         if(password){
-            const createUser = await this.userModel.create(
-               {
-                  name:data.name,
-                  email:data.email,
-                  password:password
-               }
-            )
-            return createUser
-         }
-         
-      }
-
-
-   }
    
    async login(data:loginDto){
-      const findUser:{email:string,password:string} = await this.userModel.findOne({email:data.email});
+      const findUser:{email:string,password:string} = await this.userModel.findOne({email:data.email,role:{$ne:'admin'}});
       if(findUser){
 const checked = await comparePassword(data.password,findUser.password)
 if(checked){

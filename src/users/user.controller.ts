@@ -9,20 +9,6 @@ import { TokenService } from 'src/utils/token.service';
 export class UserController {
   constructor(private readonly userService:UserService,private readonly tokenService:TokenService) {}
 
-  @Get()
-  getHello(): string {
-    return "Hello"
-  }
-
-  @Post("/register")
-  @UsePipes(new ValidationPipe())
- async postData(@Body()body:UserDto, @Res()res){
-  const data =  await this.userService.createUser(body);
-  res.send({
-    data:data
-  })
-  }
-
   @Post("/login")
   @UsePipes(new ValidationPipe())
  async userLogin(@Body()body:loginDto, @Res()res){
