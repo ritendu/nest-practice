@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { hashPassword, comparePassword } from 'src/utils/bcrpt';
 import { userDocument } from 'src/schemas/user.schema';
 import { UserDto } from 'src/users/dtos/user.dto';
-import { AdminLoginDto } from './dtos/admin.dto';
+import { AdminLoginDto } from '../admin-auth/dtos/admin.dto';
 @Injectable()
 export class AdminService {
   constructor(
