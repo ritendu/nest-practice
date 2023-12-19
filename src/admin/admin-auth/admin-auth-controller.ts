@@ -26,19 +26,18 @@ async adminLogin(@Body() body, @Req() req, @Res() res) {
 
 @Post('/forget-password')  
 async adminForgetPassword(@Body() body,@Req() req,@Res() res){
-
+console.log(body,"body")
 const data = await this.adminAuthService.forgetPassword(body)
 return res.status(HttpStatus.OK).send({
     serverResponse: {
       message: 'OTP Successfully sent.',
     },
-    // result: {
-    //   data: user,
-    //   tokens: {
-    //     accessToken: tokens.access.token,
-    //     refreshToken: tokens.refresh.token,
-    //   },
-    // },
   });
 }
+
+@Post('/reset-password')
+async resetPassword(@Body() body){
+// const data = await
+}
+
 }

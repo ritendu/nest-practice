@@ -18,6 +18,13 @@ export class AdminLoginDto {
 export class AdminForgetPassword {
   @IsEmail()
   email: string;
-  @IsString()
-  otp: string;
+}
+
+export class AdminResetPassword{
+    @IsEmail()
+    email:string;
+    @IsString()
+    otp:string;
+    @IsString()
+    password:string
 }

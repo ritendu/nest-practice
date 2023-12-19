@@ -7,9 +7,10 @@ import { MongooseConfigService } from './database/mongoose.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AdminModule } from './admin/admin-user/admin-user-module';
 import { AdminAuthModule } from './admin/admin-auth/admin-auth-module';
+import { AdminFormModule } from './admin/admin-forms/admin-form.module';
 
 @Module({
-  imports: [UserModule,AdminModule,AdminAuthModule,
+  imports: [UserModule,AdminModule,AdminAuthModule,AdminFormModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

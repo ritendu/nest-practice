@@ -2,7 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 
-
+interface OTP {
+    expires:string;
+    otp:string;
+}
 export type userDocument = HydratedDocument<User>
 
 @Schema({timestamps:true})
@@ -18,6 +21,10 @@ password:string;
 @Prop({default:'user'})
 role:string;
 
+// @Prop({type:Object,default:""})
+// otp:OTP
+
+
 }
 
 
@@ -28,3 +35,4 @@ userSchema.methods.toJSON = function () {
     delete userObject.password;
     return userObject;
   };
+

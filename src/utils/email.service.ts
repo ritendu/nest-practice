@@ -6,7 +6,10 @@ import * as sgMail from '@sendgrid/mail';
 export class EmailService {
   constructor(private configService: ConfigService) {}
   async adminsendOTP(email: string, otp: string) {
+    console.log(email,"email")
+    console.log(otp,"string")
     const apiKey = this.configService.get('SENDGRID_API_KEY');
+    console.log(apiKey,"apiKey")
     sgMail.setApiKey(
      apiKey
     );

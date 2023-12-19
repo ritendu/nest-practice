@@ -1,17 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { AdminForgetPassword, AdminLoginDto } from './dtos/admin.dto';
+import {
+  AdminForgetPassword,
+  AdminLoginDto,
+  AdminResetPassword,
+} from './dtos/admin.dto';
 import { userDocument } from 'src/schemas/user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { comparePassword } from 'src/utils/bcrpt';
 import { EmailService } from 'src/utils/email.service';
-import { otpGenerator } from 'src/utils/otp-generator';
+import { otpGeneratorFunction } from 'src/utils/otp-generator';
 
 @Injectable()
 export class AdminAuthService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<userDocument>,
-    private emailService:EmailService
+    private emailService: EmailService,
   ) {}
 
   async adminLogin(data: AdminLoginDto) {
@@ -30,8 +34,19 @@ export class AdminAuthService {
   }
 
   async forgetPassword(data: AdminForgetPassword) {
-    const otp = otpGenerator();
-    const forgetPassword = this.emailService.adminsendOTP(data.email,otp)
+    const otp = otpGeneratorFunction();
+    const findUser = await this.userModel.findOne({
+      email: data.email,
+      role: { $eq: 'admin' },
+    });
+   if(findUser){
+    const forgetPassword = this.emailService.adminsendOTP(data.email, otp);
     return true;
+   }
+  
+  }
+
+  async resetPassword(data: AdminResetPassword) {
+    
   }
 }
