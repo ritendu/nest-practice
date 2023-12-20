@@ -21,14 +21,15 @@ export class EmailService {
       text: 'Forget Password OTP sent',
       html: `OTP is ${otp}`,
     };
-
-    sgMail.send(msg).then((data) => {
-      console.log(data);
-      (error) => {
-        if (error.response) {
-          console.error(error.response.body);
-        }
-      };
-    });
+try {
+  const data = await sgMail.send(msg)
+ console.log(data,"data")
+} catch (error) {
+  console.log(error,">>>>>>")
+  // return error.message
+  return true;
+  // console.log(error.message,"error")
+}
+   
   }
 }

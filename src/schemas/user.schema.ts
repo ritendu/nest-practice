@@ -7,7 +7,14 @@ interface OTP {
     otp:string;
 }
 export type userDocument = HydratedDocument<User>
+@Schema({ _id: false })
+export class Otp {
+  @Prop({default:""})
+  expires: string;
 
+  @Prop({default:""})
+  otp: string;
+}
 @Schema({timestamps:true})
 export class User{
 @Prop({default:""})
@@ -21,10 +28,8 @@ password:string;
 @Prop({default:'user'})
 role:string;
 
-// @Prop({type:Object,default:""})
-// otp:OTP
-
-
+@Prop({type:Otp,default:{expires:"",otp:""}})
+otp:Otp
 }
 
 

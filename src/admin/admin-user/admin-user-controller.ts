@@ -24,8 +24,8 @@ export class AdminController {
     private tokenService: TokenService,
   ) {}
 
-  @Roles(Role.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.Admin)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Post('/register')
   async postData(@Body() body: UserDto, @Req() req, @Res() res) {
     const user = await this.adminService.createUser(body);
