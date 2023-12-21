@@ -7,9 +7,10 @@ import {
 import { userDocument } from 'src/schemas/user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { comparePassword } from 'src/utils/bcrpt';
+import { comparePassword, hashPassword } from 'src/utils/bcrpt';
 import { EmailService } from 'src/utils/email.service';
 import { otpGeneratorFunction } from 'src/utils/otp-generator';
+import { User } from 'src/users/interfaces/user.interface';
 
 @Injectable()
 export class AdminAuthService {
@@ -47,9 +48,13 @@ export class AdminAuthService {
      throw new BadRequestException("Something went wrong")
     }
     else{
-      const date = new Date().toISOString()
-      findUser.otp.expires = 1234999
-      findUser.otp.otp = 12345
+      const date = new Date()
+     date.setMinutes(date.getMinutes()+5);
+      const otp = otpGeneratorFunction()
+     findUser.otp = {
+      expires:date.toISOString(),
+      otp
+     }
       await findUser.save()
       return true;
     }
@@ -61,7 +66,33 @@ export class AdminAuthService {
   
   }
 
-  async resetPassword(data: AdminResetPassword) {
-    
+  async resetPassword(data) {
+    let findUser:User = await this.userModel.findOne({email:data.email});
+    if(findUser && findUser.otp.otp!==""){
+    const date = new Date();
+    const expiresTime = new Date(findUser.otp.expires).getTime()
+    if(date.getTime() > Number(expiresTime)){
+      findUser.otp.expires = "";
+      findUser.otp.otp = ""
+      await findUser.save()
+      throw new BadRequestException("OTP has expired") 
+    }
+  
+    else if(data.otp === findUser.otp.otp){
+     
+      findUser.otp.expires = "";
+      findUser.otp.otp = ""
+
+      findUser.password = await hashPassword(data.password);
+      await findUser.save()
+      return findUser
+    }
+    else{
+      throw new BadRequestException("Incorrect OTP") 
+    }
+    }
+    else{
+      throw new BadRequestException("No User Found")
+    }
   }
 }
