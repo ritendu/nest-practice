@@ -12,6 +12,8 @@ import { User, userDocument } from 'src/schemas/user.schema';
 import { loginDto } from './dtos/login.dto';
 import { passwordGenerator } from 'src/utils/otp-generator';
 import { EmailService } from 'src/utils/email.service';
+
+
 @Injectable()
 export class UserService {
   constructor(

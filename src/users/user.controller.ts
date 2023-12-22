@@ -23,6 +23,7 @@ import { Roles } from 'src/decorator/role.decorator';
 import { Role } from 'src/enum/roles.enum';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { RolesGuard } from 'src/guard/roles.guard';
+import * as messages from '../../messages.json'
 
 @Controller('users')
 export class UserController {
@@ -39,7 +40,7 @@ export class UserController {
 
     return res.status(HttpStatus.OK).send({
       serverResponse: {
-        message: 'Success',
+        message: messages.USER_SUCCESSFULLY_LOGGED_IN,
       },
       result: {
         data: user,
