@@ -20,6 +20,7 @@ export class TokenService {
         iat: moment().unix(),
         exp: expires.unix(),
         type: tokenType,
+        userId:userId,
         role:role
     };
     return await this.jwtService.signAsync(payload, { secret });

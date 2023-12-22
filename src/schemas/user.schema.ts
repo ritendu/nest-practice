@@ -35,9 +35,11 @@ otp:Otp
 
 export const userSchema = SchemaFactory.createForClass(User);
 
-userSchema.methods.toJSON = function () {
-    let userObject = this.toObject();
-    delete userObject.password;
-    return userObject;
-  };
+userSchema.set("toJSON", {
+  transform: (doc, ret, opt) => {
+    delete ret.password;
+    delete ret.otp;
+    return ret;
+  },
+});
 

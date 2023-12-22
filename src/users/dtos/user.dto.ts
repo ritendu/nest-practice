@@ -1,4 +1,4 @@
-import { IsDefined, IsEmail, IsString, Matches, MinLength, Validate } from "class-validator";
+import { IsDefined, IsEmail, IsNotEmpty, IsString, Matches, MinLength, Validate } from "class-validator";
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator';
 
 @ValidatorConstraint({ name: 'containsUppercase', async: false })
@@ -20,9 +20,33 @@ export class UserDto{
  @IsString()
  name:string
 
- @IsString()
- @MinLength(8)
-@Validate(ContainsUppercaseConstraint)
- password:string
 }
 
+
+export class UserDtoForgetPassword{
+@IsEmail()
+@IsNotEmpty()
+email:string;
+
+}
+
+
+export class UserDtoResetPassword{
+  @IsEmail()
+  email:string;
+  @IsString()
+  otp:string;
+  @IsString()
+  password:string;
+}
+
+export class UserDtoChangePassword{
+  @IsString()
+  @IsNotEmpty()
+  password:string
+
+  @IsString()
+  @IsNotEmpty()
+  newPassword:string
+
+}

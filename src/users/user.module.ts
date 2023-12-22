@@ -6,12 +6,13 @@ import { userSchema } from 'src/schemas/user.schema';
 import { tokenSchema } from 'src/schemas/token.schema';
 import { TokenService } from 'src/utils/token.service';
 import { JwtService } from '@nestjs/jwt';
+import { EmailService } from 'src/utils/email.service';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'User', schema: userSchema },
 {name:'Token',schema:tokenSchema}
 ])],
   controllers: [UserController],
-  providers: [UserService,TokenService,JwtService],
+  providers: [UserService,TokenService,JwtService,EmailService],
 })
 export class UserModule {}

@@ -6,13 +6,8 @@ import * as sgMail from '@sendgrid/mail';
 export class EmailService {
   constructor(private configService: ConfigService) {}
   async adminsendOTP(email: string, otp: string) {
-    console.log(email,"email")
-    console.log(otp,"string")
     const apiKey = this.configService.get('SENDGRID_API_KEY');
-    console.log(apiKey,"apiKey")
-    sgMail.setApiKey(
-     apiKey
-    );
+    sgMail.setApiKey(apiKey);
 
     const msg = {
       to: email,
@@ -21,15 +16,28 @@ export class EmailService {
       text: 'Forget Password OTP sent',
       html: `OTP is ${otp}`,
     };
-try {
-  const data = await sgMail.send(msg)
- console.log(data,"data")
-} catch (error) {
-  console.log(error,">>>>>>")
-  // return error.message
-  return true;
-  // console.log(error.message,"error")
-}
-   
+    try {
+      const data = await sgMail.send(msg);
+    } catch (error) {
+      return true;
+    }
+  }
+
+  async userSendPassword(email: string, password: string) {
+    const apiKey = this.configService.get('SENDGRID_API_KEY');
+    sgMail.setApiKey(apiKey);
+
+    const msg = {
+      to: email,
+      from: 't3stnservices@gmail.com',
+      subject: 'Forget Password',
+      text: 'Forget Password',
+      html: `Password is ${password}`,
+    };
+    try {
+      const data = await sgMail.send(msg);
+    } catch (error) {
+      return true;
+    }
   }
 }

@@ -38,10 +38,10 @@ export class AdminAuthService {
     const otp = otpGeneratorFunction();
     let findUser:any = await this.userModel.findOne({
       email: data.email,
-      // role: { $eq: 'admin' },
+      role: { $eq: 'admin' },
     });
    if(findUser){
-    console.log(findUser,"findUser")
+  
     const forgetPassword:any = await this.emailService.adminsendOTP(data.email, otp);
     
     if(forgetPassword==="Unauthorized"){
@@ -67,7 +67,7 @@ export class AdminAuthService {
   }
 
   async resetPassword(data) {
-    let findUser:User = await this.userModel.findOne({email:data.email});
+    let findUser:User = await this.userModel.findOne({email:data.email,role:{$ne:'admin'}});
     if(findUser && findUser.otp.otp!==""){
     const date = new Date();
     const expiresTime = new Date(findUser.otp.expires).getTime()

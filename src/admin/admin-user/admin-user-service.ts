@@ -5,6 +5,7 @@ import { hashPassword, comparePassword } from 'src/utils/bcrpt';
 import { userDocument } from 'src/schemas/user.schema';
 import { UserDto } from 'src/users/dtos/user.dto';
 import { AdminLoginDto } from '../admin-auth/dtos/admin.dto';
+import { passwordGenerator } from 'src/utils/otp-generator';
 @Injectable()
 export class AdminService {
   constructor(
@@ -12,11 +13,12 @@ export class AdminService {
   ) {}
 
   async createUser(data: UserDto) {
-    const findUser = await this.userModel.findOne({ email: data.email });
+    const findUser = await this.userModel.findOne({ _id: data.email });
     if (findUser) {
       throw new BadRequestException('User with this email already exists');
     } else {
-      const password = await hashPassword(data.password);
+      const userpassword = passwordGenerator();
+      const password = await hashPassword(userpassword);
       if (password) {
         const createUser = await this.userModel.create({
           name: data.name,
