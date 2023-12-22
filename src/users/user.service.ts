@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserDto } from './dtos/user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -12,7 +16,7 @@ import { EmailService } from 'src/utils/email.service';
 export class UserService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<userDocument>,
-    private emailService:EmailService
+    private emailService: EmailService,
   ) {}
 
   async login(data: loginDto) {
@@ -40,40 +44,42 @@ export class UserService {
     });
     if (findUser) {
       const generatePassword = await passwordGenerator();
-      console.log(generatePassword,"generatePassword")
+      console.log(generatePassword, 'generatePassword');
       const password = await hashPassword(generatePassword);
-      const sendOTP = await this.emailService.userSendPassword(data.email,password)
-      if(sendOTP){
-         findUser.password = password;
-     
-        await findUser.save()
+      const sendOTP = await this.emailService.userSendPassword(
+        data.email,
+        password,
+      );
+      if (sendOTP) {
+        findUser.password = password;
+
+        await findUser.save();
         return true;
+      } else {
+        throw new BadRequestException('Email cannot be sent');
       }
-      else{
-         throw new BadRequestException('Email cannot be sent');
-      }
-     
     } else {
       throw new NotFoundException('User not found');
     }
   }
 
-  async changePassword(userData,data){
- let findUser = await this.userModel.findOne({_id:userData.userId});
- const checkPassword = await comparePassword(data.password,findUser.password)
- if(findUser){
-if(checkPassword){
-const password = await hashPassword(data.newPassword);
-findUser.password = password
-findUser = await findUser.save()
-return findUser
-}
-else{
-   throw new BadRequestException("Passwords does not match")
-}
- }
- else{
-   throw new NotFoundException("Users not found exception")
- }
+  async changePassword(userData, data) {
+    let findUser = await this.userModel.findOne({ _id: userData.userId });
+    const checkPassword = await comparePassword(
+      data.password,
+      findUser.password,
+    );
+    if (findUser) {
+      if (checkPassword) {
+        const password = await hashPassword(data.newPassword);
+        findUser.password = password;
+        findUser = await findUser.save();
+        return findUser;
+      } else {
+        throw new BadRequestException('Passwords does not match');
+      }
+    } else {
+      throw new NotFoundException('Users not found exception');
+    }
   }
 }

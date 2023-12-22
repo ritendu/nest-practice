@@ -13,7 +13,7 @@ export class AdminService {
   ) {}
 
   async createUser(data: UserDto) {
-    const findUser = await this.userModel.findOne({ _id: data.email });
+    const findUser = await this.userModel.findOne({ email: data.email });
     if (findUser) {
       throw new BadRequestException('User with this email already exists');
     } else {

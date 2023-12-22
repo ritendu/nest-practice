@@ -28,6 +28,7 @@ export class AdminController {
   @UseGuards(AuthGuard, RolesGuard)
   @Post('/register')
   async postData(@Body() body: UserDto, @Req() req, @Res() res) {
+
     const user = await this.adminService.createUser(body);
     return res.status(HttpStatus.CREATED).send({
       serverResponse: {
