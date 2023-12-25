@@ -40,7 +40,7 @@ export class UserController {
 
     return res.status(HttpStatus.OK).send({
       serverResponse: {
-        message: messages.USER_SUCCESSFULLY_LOGGED_IN,
+        message: messages.USER.USER_LOGIN
       },
       result: {
         data: user,

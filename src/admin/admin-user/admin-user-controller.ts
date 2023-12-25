@@ -17,6 +17,8 @@ import { Roles } from 'src/decorator/role.decorator';
 import { UserService } from 'src/users/user.service';
 import { AdminService } from './admin-user-service';
 import { TokenService } from 'src/utils/token.service';
+import * as messages from '../../../messages.json'
+
 @Controller('admin')
 export class AdminController {
   constructor(
@@ -24,15 +26,15 @@ export class AdminController {
     private tokenService: TokenService,
   ) {}
 
-  @Roles(Role.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.Admin)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Post('/register')
   async postData(@Body() body: UserDto, @Req() req, @Res() res) {
 
     const user = await this.adminService.createUser(body);
     return res.status(HttpStatus.CREATED).send({
       serverResponse: {
-        message: 'Success',
+        message: messages.ADMIN.USER_CREATED,
       },
       result: {
         data: user,

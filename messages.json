@@ -1,4 +1,11 @@
 {
     
-        "USER_SUCCESSFULLY_LOGGED_IN":"User successfully logged in"
+       "USER":{
+        "USER_LOGIN":"User successfully logged in"
+       },
+       
+       "ADMIN":{
+          "USER_CREATED":"User created successfully.",
+          "ADMIN_LOGIN_SUCCESS":"Admin logged in successfully"    
+       }
 }

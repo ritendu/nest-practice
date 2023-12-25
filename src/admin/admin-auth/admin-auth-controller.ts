@@ -2,6 +2,8 @@ import { Body, Controller, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { AdminAuthService } from './admin-auth-service';
 import { TokenService } from 'src/utils/token.service';
 import { AdminForgetPassword, AdminResetPassword } from './dtos/admin.dto';
+import * as messages from '../../../messages.json'
+
 @Controller('admin')
 export class AdminAuthController {
   constructor(
@@ -16,7 +18,7 @@ export class AdminAuthController {
 
     return res.status(HttpStatus.OK).send({
       serverResponse: {
-        message: 'Success',
+        message: messages.ADMIN.ADMIN_LOGIN_SUCCESS,
       },
       result: {
         data: user,

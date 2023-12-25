@@ -18,6 +18,7 @@ export class AdminService {
       throw new BadRequestException('User with this email already exists');
     } else {
       const userpassword = passwordGenerator();
+      console.log(userpassword,"userpassword")
       const password = await hashPassword(userpassword);
       if (password) {
         const createUser = await this.userModel.create({

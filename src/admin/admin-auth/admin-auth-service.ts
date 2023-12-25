@@ -67,7 +67,7 @@ export class AdminAuthService {
   }
 
   async resetPassword(data) {
-    let findUser:User = await this.userModel.findOne({email:data.email,role:{$ne:'admin'}});
+    let findUser:User = await this.userModel.findOne({email:data.email,role:{$eq:'admin'}});
     if(findUser && findUser.otp.otp!==""){
     const date = new Date();
     const expiresTime = new Date(findUser.otp.expires).getTime()

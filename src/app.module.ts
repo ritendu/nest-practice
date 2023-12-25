@@ -8,9 +8,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AdminModule } from './admin/admin-user/admin-user-module';
 import { AdminAuthModule } from './admin/admin-auth/admin-auth-module';
 import { AdminFormModule } from './admin/admin-forms/admin-form.module';
+import { UserFormModule } from './user-forms/user.form.module';
 
 @Module({
-  imports: [UserModule,AdminModule,AdminAuthModule,AdminFormModule,
+  imports: [UserModule,AdminModule,AdminAuthModule,AdminFormModule,UserFormModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
